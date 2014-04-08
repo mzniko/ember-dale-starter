@@ -14,7 +14,6 @@
     <div class ="container">
       <a class="navbar-brand" href="#">Bloggr</a>
       <ul class="nav navbar-nav">
-
         <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
         <li>{{#link-to 'about'}}About{{/link-to}}</li>
       </ul>
@@ -26,7 +25,32 @@
   </script>
 
   <script type="text/x-handlebars" id="about">
-    <p>Some static content for us to look at.</p>
+    <p>Some static about content for us to look at.</p>
+  </script>
+
+  <script type="text/x-handlebars" id="posts">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <table class="table">
+            <thead>
+              <tr><th>Recent Posts</th></tr>
+            </thead>
+
+            {{#each}}
+              <tr><td>
+                {{#link-to 'post' this}}
+                {{title}}{{/link-to}} <small class='muted'>by {{author.name}}</small>
+              </td></tr>
+            {{/each}}
+
+          </table>
+        </div>
+        <div class="col-md-9">
+          {{outlet}}
+        </div>
+      </div>
+    </div
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>

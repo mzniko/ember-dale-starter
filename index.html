@@ -10,37 +10,38 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-  <div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class ="container">
-      <a class="navbar-brand" href="#">Bloggr</a>
-      <ul class="nav navbar-nav">
-        <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
-        <li>{{#link-to 'about'}}About{{/link-to}}</li>
-      </ul>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="#">Bloggr</a>
+        <ul class="nav navbar-nav">
+          <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
+          <li>{{#link-to 'about'}}About{{/link-to}}</li>
+        </ul>
+      </div>
     </div>
-  </div>
 
-  {{outlet}}
+    {{outlet}}
 
   </script>
 
   <script type="text/x-handlebars" id="about">
-    <p>Some static about content for us to look at.</p>
+    <div class="container">
+      <p>Some static about content for us to look at.</p>
+    </div>
   </script>
 
   <script type="text/x-handlebars" id="posts">
     <div class="container-fluid">
-      <div class="row">
+      <div class="row-fluid">
         <div class="col-md-3">
           <table class="table">
             <thead>
               <tr><th>Recent Posts</th></tr>
             </thead>
 
-            {{#each}}
+            {{#each model}}
               <tr><td>
-                {{#link-to 'post' this}}
-                {{title}}{{/link-to}} <small class='muted'>by {{author.name}}</small>
+                {{#link-to 'post' this}}{{title}}{{/link-to}} <small class='muted'>by {{author.name}}</small>
               </td></tr>
             {{/each}}
 
@@ -53,10 +54,39 @@
     </div
   </script>
 
+  <script type="text/x-handlebars" id="post">
+    {{#if isEditing}}
+      {{partial 'post/edit'}}
+      <button {{action 'doneEditing'}}>Done</button>
+    {{else}}
+      <button {{action 'edit'}}>Edit</button>
+    {{/if}}
+
+    <h1> {{title}} </h1>
+    <h2>by {{author.name}} <small class='muted'>({{date}})</small></h2>
+
+    <hr>
+
+    <div class='intro'>
+      {{excerpt}}
+    </div>
+
+    <div class='below-the-fold'>
+      {{body}}
+    </div>
+
+  </script>
+
+  <script type="text/x-handlebars" id="post/_edit">
+    <p>{{input type="text" value=title}}</p>
+    <p>{{input type="text" value=excerpt}}</p>
+    <p>{{textarea value=body}}</p>
+  </script>
+
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>
   <script src="js/libs/ember-1.5.0.js"></script>
-  <script href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+  <script href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.js"></script>
   <script href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="js/app.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
